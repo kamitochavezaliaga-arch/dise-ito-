@@ -11,9 +11,9 @@
         <nav>
             <div class="logo">Ferretería<span>Pro</span></div>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html" class="active">Inicio</a></li>
                 <li><a href="productos.html">Productos</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
             </ul>
         </nav>
     </header>
@@ -25,12 +25,54 @@
             <button id="btn-explorar" onclick="window.location.href='productos.html'">Ver Catálogo</button>
         </section>
 
-        <section class="productos">
-            <h2>Nuestros Destacados</h2>
-            <div class="grid-productos" id="lista-productos-destacados">
+        <section class="productos-destacados-section">
+            <div class="container">
+                <h2 class="titulo-seccion">Nuestros Destacados</h2>
+                <div class="grid-productos-alineado" id="lista-productos">
+                    </div>
+            </div>
+        </section>
+
+        <div class="separador-seccion"></div>
+
+        <section class="sobre-nosotros-section">
+            <div class="container">
+                <div class="sobre-nosotros-grid">
+                    <div class="sobre-nosotros-content">
+                        <h2 class="titulo-sobre-nosotros">Liderando la industria en Huancayo</h2>
+                        <p>En <strong>Ferretería Pro</strong>, llevamos más de 25 años proveyendo soluciones integrales para la construcción. Nos especializamos en herramientas de alta gama y asesoría técnica personalizada para proyectos en El Tambo y toda la región central.</p>
+                        
+                        <div class="kpis-grid">
+                            <div class="kpi-item">
+                                <span class="kpi-number">+25</span>
+                                <span class="kpi-text">Años de experiencia</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-number">5k</span>
+                                <span class="kpi-text">Clientes satisfechos</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-number">100%</span>
+                                <span class="kpi-text">Garantía técnica</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sobre-nosotros-image">
+                        <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=600" alt="Equipo Ferretería Pro">
+                    </div>
                 </div>
+            </div>
         </section>
     </main>
+
+    <div id="modal-info" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modal-img" src="" alt="">
+            <h2 id="modal-titulo"></h2>
+            <p id="modal-desc"></p>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
 </body>

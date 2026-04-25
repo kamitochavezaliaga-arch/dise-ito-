@@ -1,7 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Lista de productos con descripción corta incluida
+    // --- 1. CONFIGURACIÓN DE EMAILJS ---
+    const PUBLIC_KEY = "TU_PUBLIC_KEY"; 
+    const SERVICE_ID = "TU_SERVICE_ID"; 
+    const TEMPLATE_ID = "TU_TEMPLATE_ID"; 
+
+    // --- 2. LISTA DE PRODUCTOS ---
     const productos = [
-        // --- MANUALES (15 productos) ---
+        // --- MANUALES ---
         { nombre: 'Martillo de Acero', precio: '$15.00', img: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&q=80&w=400', categoria: 'Manuales', destacado: true, desc: 'Herramienta de impacto para clavar o extraer clavos y golpear piezas.' },
         { nombre: 'Juego de Destornilladores', precio: '$12.00', img: 'https://www.bing.com/th?id=OPHS.UZtxYGrdvNGmTg474C474&o=5&pid=21.1&w=152&h=152&qlt=100&dpr=1&o=2&bw=6&bc=FFFFFF', categoria: 'Manuales', destacado: true, desc: 'Kit de puntas variadas para apretar y aflojar tornillos con precisión.' },
         { nombre: 'Caja de Herramientas', precio: '$45.00', img: 'https://www.bing.com/th?id=OPHS.eyMOFGF9S%2beOxQ474C474&o=5&pid=21.1&w=164&h=164&qlt=100&dpr=1&o=2', categoria: 'Manuales', destacado: true, desc: 'Contenedor robusto para organizar y transportar herramientas de forma segura.' },
@@ -18,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { nombre: 'Cutter Profesional', precio: '$6.00', img: 'https://m.media-amazon.com/images/I/61EK10Pe0kL._AC_UL320_.jpg', categoria: 'Manuales', destacado: false, desc: 'Cuchilla retráctil para realizar cortes precisos en materiales diversos.' },
         { nombre: 'Combo de Cinceles', precio: '$25.00', img: 'https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&q=80&w=400', categoria: 'Manuales', destacado: false, desc: 'Herramientas de corte para tallar madera o trabajar en mampostería.' },
 
-        // --- ELÉCTRICAS (15 productos) ---
+        // --- ELÉCTRICAS ---
         { nombre: 'Taladro Percutor', precio: '$85.00', img: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&q=80&w=400', categoria: 'Eléctricas', destacado: true, desc: 'Máquina eléctrica para perforar superficies duras como concreto y ladrillo.' },
         { nombre: 'Sierra Circular', precio: '$120.00', img: 'https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&q=80&w=400', categoria: 'Eléctricas', destacado: false, desc: 'Sierra con disco dentado para cortes rectos y rápidos en tablas de madera.' },
         { nombre: 'Esmeril Angular', precio: '$75.00', img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&q=80&w=400', categoria: 'Eléctricas', destacado: false, desc: 'Herramienta para cortar, pulir y desbastar materiales metálicos o piedra.' },
@@ -36,57 +41,52 @@ document.addEventListener('DOMContentLoaded', () => {
         { nombre: 'Multímetro Digital', precio: '$35.00', img: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=400', categoria: 'Eléctricas', destacado: false, desc: 'Instrumento para medir tensiones, corrientes y resistencias eléctricas.' }
     ];
 
-    // 2. Referencias a contenedores
+    // --- 3. REFERENCIAS A CONTENEDORES ---
+    // Ajustado para coincidir con el HTML nuevo que te pasé
     const contenedorInicio = document.getElementById('lista-productos');
-    const contenedorPaginaProductos = document.getElementById('lista-productos-completo');
+    const contenedorPaginaProductos = document.getElementById('lista-productos-completa');
     const botonesFiltro = document.querySelectorAll('.btn-filtro');
 
-    // Referencias para el Modal (Ventana de Información)
     const modal = document.getElementById('modal-info');
     const modalImg = document.getElementById('modal-img');
     const modalTitulo = document.getElementById('modal-titulo');
     const modalDesc = document.getElementById('modal-desc');
     const closeModal = document.querySelector('.close');
 
-    // 3. Función para renderizar tarjetas
+    // --- 4. FUNCIÓN RENDERIZAR (CORREGIDA PARA ALINEACIÓN PROFESIONAL) ---
     const renderizar = (lista, target) => {
         if (!target) return;
         target.innerHTML = ''; 
         lista.forEach(prod => {
             const card = document.createElement('div');
-            card.className = 'card';
+            // CAMBIO CRÍTICO: Usamos 'card-alineada' en lugar de 'card'
+            card.className = 'card-alineada'; 
             card.innerHTML = `
                 <img src="${prod.img}" alt="${prod.nombre}" onerror="this.src='https://via.placeholder.com/150?text=Imagen+No+Disponible'" style="cursor:pointer;">
                 <h3 style="cursor:pointer;">${prod.nombre}</h3>
-                <p>${prod.precio}</p>
+                <p class="precio">${prod.precio}</p>
             `;
             
-            // Evento al hacer clic en imagen o título para ver detalles
             const abrirInfo = () => {
-                modalImg.src = prod.img;
-                modalTitulo.innerText = prod.nombre;
-                modalDesc.innerText = prod.desc;
-                modal.style.display = 'block';
+                if (modal) {
+                    modalImg.src = prod.img;
+                    modalTitulo.innerText = prod.nombre;
+                    modalDesc.innerText = prod.desc;
+                    modal.style.display = 'block';
+                }
             };
 
             card.querySelector('img').onclick = abrirInfo;
             card.querySelector('h3').onclick = abrirInfo;
-
             target.appendChild(card);
         });
     };
 
-    // 4. Lógica para cerrar el Modal
-    if (closeModal) {
-        closeModal.onclick = () => modal.style.display = 'none';
-    }
+    // --- 5. LÓGICA MODAL ---
+    if (closeModal) closeModal.onclick = () => modal.style.display = 'none';
+    window.onclick = (event) => { if (event.target == modal) modal.style.display = 'none'; };
 
-    // Cerrar si se hace clic fuera del cuadro blanco del modal
-    window.onclick = (event) => {
-        if (event.target == modal) modal.style.display = 'none';
-    };
-
-    // 5. Lógica de Filtrado
+    // --- 6. FILTRADO ---
     botonesFiltro.forEach(boton => {
         boton.addEventListener('click', () => {
             botonesFiltro.forEach(btn => btn.classList.remove('active'));
@@ -97,12 +97,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 6. Ejecución inicial
+    // --- 7. FORMULARIO DE CONTACTO (EMAILJS) ---
+    const formContacto = document.getElementById('form-contacto');
+    if (formContacto) {
+        formContacto.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const btn = document.querySelector('.btn-enviar');
+            const originalText = btn.innerText;
+            btn.innerText = 'Enviando...';
+            btn.disabled = true;
+
+            emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, this)
+                .then(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    alert(`¡Gracias por escribirnos! Tu mensaje ha sido enviado con éxito.`);
+                    formContacto.reset();
+                }, (err) => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    alert('Error al enviar el mensaje. Por favor, revisa tu conexión.');
+                    console.error('EmailJS Error:', err);
+                });
+        });
+    }
+
+    // --- 8. EJECUCIÓN INICIAL ---
+    // Renderiza destacados en la Home y todos en la página de productos
     if (contenedorInicio) renderizar(productos.filter(p => p.destacado), contenedorInicio);
     if (contenedorPaginaProductos) renderizar(productos, contenedorPaginaProductos);
 
     const btnExplorar = document.getElementById('btn-explorar');
-    if (btnExplorar) {
-        btnExplorar.onclick = () => window.location.href = 'productos.html';
-    }
+    if (btnExplorar) btnExplorar.onclick = () => window.location.href = 'productos.html';
 });
