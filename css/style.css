@@ -1,17 +1,29 @@
-/* Reset básico para que todo se vea igual en todos los navegadores */
+/* Reset básico y Tipografía Moderna */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
     background-color: #f4f4f4;
     color: #333;
+    line-height: 1.6;
 }
 
-/* Navegación */
+/* --- 1. BARRA DE ANUNCIOS (NUEVO) --- */
+.announcement-bar {
+    background: #ffcc00;
+    color: #222;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Navegación Profesional */
 header {
     background: #222;
     color: #fff;
@@ -19,27 +31,64 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .logo span {
-    color: #ffcc00; /* Amarillo industrial */
+    color: #ffcc00;
 }
 
+/* --- 2. BUSCADOR CENTRAL (NUEVO) --- */
+.search-container {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    color: #333;
+}
+
+.search-container button {
+    background: #ffcc00;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+    color: #222;
+    font-size: 1.2rem;
+    transition: background 0.3s;
+}
+
+.search-container button:hover {
+    background: #e6b800;
+}
+
+/* Menú de navegación */
 nav ul {
     display: flex;
     list-style: none;
+    align-items: center;
 }
 
 nav ul li {
@@ -49,22 +98,50 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
+    font-weight: 500;
     transition: color 0.3s;
+    position: relative;
 }
 
 nav ul li a:hover {
     color: #ffcc00;
 }
 
-/* Sección Hero (La parte oscura con la imagen de fondo) */
+/* --- 3. BOTÓN DE CARRITO EN MENÚ (NUEVO) --- */
+.cart-menu {
+    position: relative;
+}
+
+.cart-btn {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+#cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #ffcc00;
+    color: #222;
+    font-size: 0.7rem;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #222;
+}
+
+/* Sección Hero */
 .hero {
-    /* Aquí colocas tu URL. He dejado una de herramientas por defecto */
     background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                 url('https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=1200');
-    
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Efecto de desplazamiento suave */
+    background-attachment: fixed;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -72,45 +149,44 @@ nav ul li a:hover {
     align-items: center;
     color: white;
     text-align: center;
-    padding: 0 20px;
 }
 
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.hero p {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-}
+.hero h1 { font-size: 2.8rem; margin-bottom: 10px; }
+.hero p { font-size: 1.1rem; margin-bottom: 20px; }
 
 .hero button {
     background-color: #ffcc00;
     color: #222;
     border: none;
-    padding: 12px 25px;
+    padding: 12px 30px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
 }
 
 .hero button:hover {
     background-color: #e6b800;
+    transform: translateY(-3px);
 }
 
 /* Sección de Productos */
-.productos {
-    padding: 60px 5%;
-}
+.productos { padding: 60px 5%; }
 
-.productos h2 {
-    text-align: left;
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 30px;
     border-left: 5px solid #ffcc00;
     padding-left: 15px;
+}
+
+.view-all {
+    color: #222;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 .grid-productos {
@@ -121,50 +197,95 @@ nav ul li a:hover {
 
 /* Tarjetas de productos */
 .card {
-    background: white;
+    background: white; 
     padding: 20px;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    transition: all 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .card img {
     width: 100%;
-    height: 180px;
-    object-fit: contain; /* Para que la herramienta se vea completa sin cortarse */
+    height: 200px; 
+    object-fit: contain; 
     margin-bottom: 15px;
-    background: #f9f9f9;
+    background: #fdfdfd;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.4s ease;
 }
 
-.card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
+.card:hover img { transform: scale(1.08); }
 
-.card p {
-    color: #27ae60; /* Color verde para el precio */
-    font-weight: bold;
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-}
+.card p { color: #27ae60; font-weight: bold; font-size: 1.4rem; margin-bottom: 15px; }
 
 .card button {
     width: 100%;
     background: #222;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 12px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
 .card button:hover {
-    background: #444;
+    background: #ffcc00;
+    color: #222;
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
 }
+
+/* --- 4. WHATSAPP FLOTANTE (NUEVO) --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #25d366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 2000;
+    transition: transform 0.3s;
+}
+
+.whatsapp-float:hover { transform: scale(1.1); }
+
+/* Footer */
+footer {
+    background: #222;
+    color: white;
+    padding: 40px 5%;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.footer-content span { color: #ffcc00; font-weight: bold; }
+
+.socials { margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
+
+.socials a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.socials a:hover { color: #ffcc00; }

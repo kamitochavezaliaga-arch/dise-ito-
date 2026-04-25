@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Carrito - Ferretería Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <style>
+        :root {
+            --primary: #ff8800; --primary-dark: #e67a00; --dark: #1a1a1a;
+            --success: #2ecc71; --bg: #f0f2f5; --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--dark); min-height: 100vh; }
+
+        header {
+            background: var(--dark); color: var(--white); padding: 1.2rem 5%;
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .logo { font-size: 1.6rem; font-weight: 800; }
+        .logo span { color: var(--primary); }
+
+        nav a {
+            color: var(--white); text-decoration: none; font-weight: 600;
+            display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1);
+            padding: 8px 16px; border-radius: 8px; transition: 0.3s;
+        }
+        nav a:hover { background: var(--primary); color: var(--dark); }
+
+        .cart-container {
+            max-width: 1100px; margin: 50px auto; padding: 0 20px;
+            display: grid; grid-template-columns: 1.8fr 1fr; gap: 30px;
+        }
+
+        .cart-section { background: var(--white); padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        h2 { font-size: 1.8rem; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; }
+        h2::before { content: ''; width: 6px; height: 30px; background: var(--primary); border-radius: 10px; }
+
+        .cart-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px; background: #f8fafc; border-radius: 15px;
+            margin-bottom: 15px; border: 1px solid #e2e8f0;
+        }
+
+        .item-info { display: flex; align-items: center; gap: 20px; }
+        .item-info img { width: 90px; height: 90px; object-fit: contain; background: var(--white); border-radius: 12px; padding: 10px; }
+
+        .item-details h4 { font-size: 1.1rem; color: var(--dark); margin-bottom: 4px; }
+        .item-details p { color: var(--success); font-weight: 700; font-size: 1.2rem; }
+
+        .btn-remove {
+            color: #ef4444; background: #fee2e2; border: none; width: 40px; height: 40px;
+            border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+        .btn-remove:hover { background: #ef4444; color: white; }
+
+        .cart-summary {
+            background: var(--dark); color: var(--white); padding: 35px;
+            border-radius: 24px; height: fit-content; position: sticky; top: 100px;
+        }
+
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 18px; color: #cbd5e1; }
+        .summary-total { border-top: 2px dashed rgba(255,255,255,0.2); padding-top: 20px; font-size: 1.5rem; font-weight: 700; }
+        .summary-total span:last-child { color: var(--primary); }
+
+        .btn-checkout {
+            width: 100%; background: var(--primary); color: var(--dark); border: none;
+            padding: 18px; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 30px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+        }
+        .btn-checkout:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        .empty-cart {
+            text-align: center; padding: 50px; color: #64748b;
+        }
+        .empty-cart i { font-size: 4rem; margin-bottom: 15px; display: block; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-content { background: var(--white); padding: 40px; border-radius: 24px; text-align: center; max-width: 400px; }
+        .modal-overlay.active { display: flex; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Ferretería<span> MASTER</span></div>
+            <a href="index.html"><i class='bx bx-left-arrow-alt'></i> Volver a la Tienda</a>
+        </nav>
+    </header>
+
+    <main class="cart-container">
+        <section class="cart-section">
+            <h2>Mi Carrito</h2>
+            <div id="items-contenedor"></div>
+        </section>
+
+        <section class="cart-summary">
+            <h3>Resumen de Pedido</h3>
+            <div class="summary-row">
+                <span>Producto:</span>
+                <span id="resumen-nombre">-</span>
+            </div>
+            <div class="summary-row">
+                <span>Envío:</span>
+                <span style="color: var(--success);">GRATIS</span>
+            </div>
+            <div class="summary-row summary-total">
+                <span>Total:</span>
+                <span id="total-txt">S/. 0.00</span>
+            </div>
+            <button class="btn-checkout" id="btn-comprar">
+                <i class='bx bxs-zap'></i> COMPRAR AHORA
+            </button>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="modal-success">
+        <div class="modal-content">
+            <i class='bx bxs-check-circle' style="font-size: 5rem; color: var(--success); margin-bottom: 15px;"></i>
+            <h2 style="margin-bottom: 10px;">¡Compra Exitosa!</h2>
+            <p style="color: #64748b; margin-bottom: 25px;">Gracias, tu pedido ha sido procesado correctamente.</p>
+            <button class="btn-checkout" onclick="cerrarYRegresar()">ACEPTAR</button>
+        </div>
+    </div>
+
+    <script>
+        function mostrarCarrito() {
+            const contenedor = document.getElementById('items-contenedor');
+            const resumenNombre = document.getElementById('resumen-nombre');
+            const totalTxt = document.getElementById('total-txt');
+            const btnComprar = document.getElementById('btn-comprar');
+            
+            const data = localStorage.getItem('productoCarrito');
+            console.log('Datos en carrito.html:', data);
+            
+            if (data && data !== 'null' && data !== 'undefined') {
+                try {
+                    const producto = JSON.parse(data);
+                    
+                    if (producto && producto.nombre) {
+                        contenedor.innerHTML = `
+                            <div class="cart-item">
+                                <div class="item-info">
+                                    <img src="${producto.img || 'https://via.placeholder.com/90'}" alt="${producto.nombre}" onerror="this.src='https://via.placeholder.com/90'">
+                                    <div class="item-details">
+                                        <h4>${producto.nombre}</h4>
+                                        <p>${producto.precio || 'S/. 0.00'}</p>
+                                    </div>
+                                </div>
+                                <button class="btn-remove" onclick="eliminarItem()">
+                                    <i class='bx bx-trash'></i>
+                                </button>
+                            </div>
+                        `;
+                        
+                        resumenNombre.innerText = producto.nombre;
+                        totalTxt.innerText = producto.precio || 'S/. 0.00';
+                        btnComprar.style.display = 'flex';
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Error:', e);
+                }
+            }
+            
+            // Carrito vacío
+            contenedor.innerHTML = `
+                <div class="empty-cart">
+                    <i class='bx bx-cart-alt'></i>
+                    <p>Tu carrito está vacío actualmente.</p>
+                    <a href="index.html" style="display: inline-block; margin-top: 15px; color: var(--primary);">Ir a comprar</a>
+                </div>
+            `;
+            btnComprar.style.display = 'none';
+        }
+        
+        function eliminarItem() {
+            localStorage.removeItem('productoCarrito');
+            mostrarCarrito();
+        }
+        
+        function cerrarYRegresar() {
+            localStorage.removeItem('productoCarrito');
+            window.location.href = "index.html";
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            mostrarCarrito();
+            
+            const btnComprar = document.getElementById('btn-comprar');
+            if (btnComprar) {
+                btnComprar.onclick = function() {
+                    const data = localStorage.getItem('productoCarrito');
+                    if (!data || data === 'null') return;
+                    
+                    this.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> PROCESANDO...";
+                    this.disabled = true;
+                    
+                    setTimeout(() => {
+                        document.getElementById('modal-success').classList.add('active');
+                        this.disabled = false;
+                    }, 1000);
+                };
+            }
+        });
+    </script>
+</body>
+</html>

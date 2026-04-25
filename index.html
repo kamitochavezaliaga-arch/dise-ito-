@@ -3,17 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferretería Pro - Herramientas y Soluciones</title>
+    <title>Ferretería Master - Herramientas y Soluciones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="announcement-bar">
+        <p>⚡ ENVIAMOS TU PEDIDO EL MISMO DÍA A TODO EL PERÚ ⚡</p>
+    </div>
+
     <header>
         <nav>
-            <div class="logo">Ferretería<span>Pro</span></div>
+            <div class="logo">Ferretería<span> Master</span></div>
+            
+            <div class="search-container">
+                <input type="text" id="input-busqueda" placeholder="Estoy buscando herramientas...">
+                <button id="btn-busqueda"><i class='bx bx-search'></i></button>
+            </div>
+
             <ul>
-                <li><a href="#">Inicio</a></li>
+                <li><a href="index.html">Inicio</a></li>
                 <li><a href="#">Productos</a></li>
                 <li><a href="#">Contacto</a></li>
+                <li class="cart-menu">
+                    <a href="carrito.html" class="cart-btn">
+                        <i class='bx bx-cart'></i>
+                        <span id="cart-count">0</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -26,11 +44,28 @@
         </section>
 
         <section class="productos">
-            <h2>Nuestros Destacados</h2>
-            <div class="grid-productos" id="lista-productos">
-                </div>
+            <div class="section-title">
+                <h2>Nuestros Destacados</h2>
+                <a href="#" id="ver-todo" class="view-all">Ver Todo</a>
+            </div>
+            <div class="grid-productos" id="lista-productos"></div>
         </section>
     </main>
+
+    <a href="https://wa.me/981182158" class="whatsapp-float" target="_blank">
+        <i class='bx bxl-whatsapp'></i>
+    </a>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 <span>Ferretería Master</span>. Todos los derechos reservados.</p>
+            <div class="socials">
+                <a href="#"><i class='bx bxl-facebook-circle'></i> Facebook</a>
+                <a href="#"><i class='bx bxl-instagram' ></i> Instagram</a>
+                <a href="#"><i class='bx bxl-whatsapp' ></i> WhatsApp</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/script.js"></script>
 </body>
